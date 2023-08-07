@@ -7,6 +7,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Linq;
 
+//This program is Andriod Side 
+
+//送信側
 public class ClientManager : SingletonMonoBehaviour<ClientManager>
 {
     /*ブロードキャストアドレス
@@ -27,13 +30,11 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     // char - 4
     //vector -5
 
-    private string host = "192.168.0.164";
+    private string host = "133.42.155.160";
     private int port = 9000;
     private UdpClient client;
+
     [SerializeField] Text text;
-
-    [SerializeField] GameObject cube;
-
 
     // Start is called before the first frame update
     void Start()
@@ -65,8 +66,8 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
                 text.text = "離した";
 
                 Debug.Log("Send");
-                var message = Encoding.UTF8.GetBytes("Hello Touch World!");
-                client.Send(message, message.Length);
+                SendString("Hello Touch World!");       
+
 
             }
 
@@ -75,21 +76,7 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
                 Debug.Log("押しっぱなし");
                 text.text = "押しっぱ";
             }
-        }
-
-        SendVector(cube.transform.position);
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            Debug.Log("Send");
-            SendString("Hello World!");
-            //var message = Encoding.UTF8.GetBytes("Hello World!");
-            //client.Send(message, message.Length);
-        }
-        else if (Input.GetMouseButtonDown(0))
-        {
-
-        }
+        }             
     }
 
     //送信Bit

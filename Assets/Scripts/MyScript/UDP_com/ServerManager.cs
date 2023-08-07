@@ -8,6 +8,8 @@ using System.Linq;
 using UniRx;
 using UnityEngine.UI;
 
+//This program is Andriod Side
+
 //éÛÇØéÊÇ¡ÇΩë§ÇÃãLç⁄
 public class ServerManager : SingletonMonoBehaviour<ServerManager> 
 { 
@@ -15,7 +17,7 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
     private Subject<string> subject = new Subject<string>();
     [SerializeField] Text message;
 
-    [SerializeField] GameObject cube;
+    //[SerializeField] GameObject cube;
     private Vector3 cubePosition;
 
 
@@ -39,7 +41,7 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
                         break;
                     case "V":
                         message.text = "Position Change";
-                        cube.transform.position = cubePosition;
+                        //cube.transform.position = cubePosition;
                         break;
                 }
 
