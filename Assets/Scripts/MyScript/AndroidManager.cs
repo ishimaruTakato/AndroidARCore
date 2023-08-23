@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class AndroidManager : MonoBehaviour
 {
+    //TEST—p
     ClientManager clientManager;
     ServerManager serverManager;
 
