@@ -89,6 +89,9 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     // char - 4
     //vector -5
 
+    //vectorPos -6
+    //vectorRot -7
+
     private void Send(byte[] bytes)
     {
         client.Send(bytes, bytes.Length);

@@ -8,6 +8,7 @@ public class AndroidManager : MonoBehaviour
     //TEST—p
     ClientManager clientManager;
     ServerManager serverManager;
+    HandByte handByte;
 
     [SerializeField] Camera androidCamera;
     [SerializeField] Text posMessage;
@@ -17,6 +18,7 @@ public class AndroidManager : MonoBehaviour
     {
         clientManager = ClientManager.Instance;
         serverManager = ServerManager.Instance;
+        handByte = HandByte.Instance;
     }
 
     // Update is called once per frame

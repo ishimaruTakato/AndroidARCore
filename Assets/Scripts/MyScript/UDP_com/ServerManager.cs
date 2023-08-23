@@ -12,7 +12,10 @@ using UnityEngine.UI;
 
 //éÛÇØéÊÇ¡ÇΩë§ÇÃãLç⁄
 public class ServerManager : SingletonMonoBehaviour<ServerManager> 
-{ 
+{
+    HandByte handByte;
+
+
     private UdpClient udpClient;
     private Subject<string> subject = new Subject<string>();
     [SerializeField] Text message;
@@ -24,6 +27,8 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
     // Start is called before the first frame update
     void Start()
     {
+        handByte = HandByte.Instance;
+
         udpClient = new UdpClient(9000);
         udpClient.BeginReceive(OnReceived, udpClient);
 
@@ -42,6 +47,14 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
                     case "V":
                         message.text = "Position Change";
                         //cube.transform.position = cubePosition;
+                        break;
+
+                    case "Pos":
+                        message.text = "Position Get";
+                        break;
+
+                    case "Rot":
+                        message.text = "Rotation Get";
                         break;
                 }
 
@@ -72,6 +85,9 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
         // string -3
         // char - 4
         //vector -5
+        //vectorPos -6
+        //vectorRot -7
+
         switch (byteType)
         {
             case 3:
@@ -85,6 +101,17 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
                 
                 ReceiveVec(getByte);             
                 subject.OnNext("V");
+                break;
+
+            case 6:
+
+                handByte.ReceivePos(getByte);
+                subject.OnNext("Pos");
+                break;
+            case 7:
+
+                handByte.ReceiveRot(getByte);
+                subject.OnNext("Rot");
                 break;
         }
 
