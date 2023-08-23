@@ -18,6 +18,8 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     サブネット マスク . . . . . . . . . .: 255.255.255.0
     デフォルト ゲートウェイ . . . . . . .: 133.42.155.254
      */
+
+    //デスクトップPC 192.168.0.209
     //ノートPC 133.42.155.160
     //ノートWIFI 192.168.0.85
     //スマホ 192.168.0.164
@@ -30,7 +32,7 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     // char - 4
     //vector -5
 
-    private string host = "133.42.155.160";
+    private string host = "192.168.0.209";
     private int port = 9000;
     private UdpClient client;
 
@@ -63,7 +65,7 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
             if (touch.phase == TouchPhase.Ended)
             {
                 Debug.Log("離した瞬間");
-                text.text = "離した";
+                text.text = "離しyon\nto "+host;
 
                 Debug.Log("Send");
                 SendString("Hello Touch World!");       
