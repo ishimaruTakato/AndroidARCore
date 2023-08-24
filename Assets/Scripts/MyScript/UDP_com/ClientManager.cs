@@ -55,27 +55,20 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
             Touch touch = Input.GetTouch(0);
 
             if (touch.phase == TouchPhase.Began)
-            {
-                Debug.Log("âüÇµÇΩèuä‘");
+            {                
                 text.text = "âüÇµÇΩ";
-
-
             }
 
             if (touch.phase == TouchPhase.Ended)
             {
-                Debug.Log("ó£ÇµÇΩèuä‘");
                 text.text = "ó£Çµyon\nto "+host;
 
                 Debug.Log("Send");
-                SendString("Hello Touch World!");       
-
-
+                SendString("Hello Touch World!");
             }
 
             if (touch.phase == TouchPhase.Moved)
-            {
-                Debug.Log("âüÇµÇ¡ÇœÇ»Çµ");
+            {                
                 text.text = "âüÇµÇ¡Çœ";
             }
         }             
@@ -110,19 +103,15 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
         float y = vec.y;
         float z = vec.z;
 
-        Debug.Log("Client--- x=" + x + ", y=" + y + ",z=" + z);
-
         byte[] xByte = BitConverter.GetBytes(x);
         byte[] yByte = BitConverter.GetBytes(y);
         byte[] zByte = BitConverter.GetBytes(z);
 
-        string test = "";
-        foreach (var i in xByte)
-        {
-            test += i + ", ";
-        }
-
-        Debug.Log(test);
+        //string test = "";
+        //foreach (var i in xByte)
+        //{
+        //    test += i + ", ";
+        //}
 
         byte[] vecByte = xByte.Concat(yByte.Concat(zByte).ToArray()).ToArray();
         vecByte = vecByte.Concat(new byte[] { 5 }).ToArray();
@@ -130,8 +119,6 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
         vecByte = new byte[] { 5 }.Concat(vecByte).ToArray();
         Send(vecByte);
     }
-
-
 
 
     private void OnDestroy()
