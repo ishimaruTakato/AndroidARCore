@@ -8,6 +8,7 @@ public class HandByte : SingletonMonoBehaviour<HandByte>
 {
     [SerializeField] OVRSkeleton toSkeleton;
     [SerializeField] OVRCustomSkeleton toCSkeleton;
+    [SerializeField] Transform[] Bones = new Transform[24];
 
     //List<byte[]> bornPosByte = new List<byte[]>();
     //List<byte[]> bornRotByte = new List<byte[]>();
@@ -36,7 +37,7 @@ public class HandByte : SingletonMonoBehaviour<HandByte>
         for(int i=0; i<24; i++)
         {
             //toCSkeleton.Bones[i].Transform.position = bornPos[i];
-            //toCSkeleton.Bones[i].Transform.eulerAngles = bornRot[i];
+            toCSkeleton.Bones[i].Transform.eulerAngles = bornRot[i];
             Debug.Log(toCSkeleton.Bones.Count());
             
         }

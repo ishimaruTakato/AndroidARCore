@@ -1657,6 +1657,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toSkeleton: {fileID: 2114886784}
   toCSkeleton: {fileID: 2114886784}
+  Bones:
+  - {fileID: 1064006827}
+  - {fileID: 376141397}
+  - {fileID: 1693727760}
+  - {fileID: 60853933}
+  - {fileID: 1084560319}
+  - {fileID: 1450984037}
+  - {fileID: 1188517258}
+  - {fileID: 301596629}
+  - {fileID: 1061106700}
+  - {fileID: 356725500}
+  - {fileID: 1819139078}
+  - {fileID: 949474657}
+  - {fileID: 1379960660}
+  - {fileID: 271600496}
+  - {fileID: 1625183182}
+  - {fileID: 1336971990}
+  - {fileID: 2126346389}
+  - {fileID: 1540004539}
+  - {fileID: 31884809}
+  - {fileID: 1055487356}
+  - {fileID: 1100377819}
+  - {fileID: 354167151}
+  - {fileID: 2018470048}
+  - {fileID: 698687134}
 --- !u!114 &1070471226
 MonoBehaviour:
   m_ObjectHideFlags: 0
