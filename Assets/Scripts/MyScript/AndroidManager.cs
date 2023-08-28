@@ -40,8 +40,8 @@ public class AndroidManager : MonoBehaviour
     private void SendCameraPos()
     {
         clientManager.SendVector(androidCamera.transform.position);
-        posMessage.text = "This.CameraPos: x=" +androidCamera.transform.position.x+
-                          "\ny=" + androidCamera.transform.position.y +
-                          "\nz=" + androidCamera.transform.position.z;
+        //posMessage.text = "This.CameraPos: x=" +androidCamera.transform.position.x+
+        //                  "\ny=" + androidCamera.transform.position.y +
+        //                  "\nz=" + androidCamera.transform.position.z;
     }
 }

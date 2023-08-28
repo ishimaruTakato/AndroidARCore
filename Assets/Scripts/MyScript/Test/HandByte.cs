@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 
 public class HandByte : SingletonMonoBehaviour<HandByte>
@@ -9,6 +10,9 @@ public class HandByte : SingletonMonoBehaviour<HandByte>
     [SerializeField] OVRSkeleton toSkeleton;
     [SerializeField] OVRCustomSkeleton toCSkeleton;
     [SerializeField] Transform[] myBones = new Transform[24];
+
+    [SerializeField] GameObject testHandCube;
+    [SerializeField] Text comformMessage;
 
     //List<byte[]> bornPosByte = new List<byte[]>();
     //List<byte[]> bornRotByte = new List<byte[]>();
@@ -45,17 +49,31 @@ public class HandByte : SingletonMonoBehaviour<HandByte>
 
     public void ReceivePos(byte[] bytes)
     {
-        Debug.Log("Receive Pos");
-        byte byteType = bytes[0];
-        bytes = bytes.Skip(0).ToArray();
+        //Debug.Log("Receive Pos2");
+        //byte byteType = bytes[0];
+        //bytes = bytes.Skip(0).ToArray();
 
         Vector3 positionVec = GetByteVec(bytes);
-        bornPos[(int)byteType] = positionVec;
+        testHandCube.transform.position = positionVec;
+        //bornPos[(int)byteType] = positionVec;
     }
+
+    public void TestReceivePos(Vector3 IndexPos)
+    {
+        //Debug.Log("Receive Pos2");
+        //byte byteType = bytes[0];
+        //bytes = bytes.Skip(0).ToArray();
+
+        Debug.Log("Receive Index");
+        testHandCube.transform.position = IndexPos;
+        //bornPos[(int)byteType] = positionVec;
+    }
+
+
 
     public void ReceiveRot(byte[] bytes)
     {
-        Debug.Log("Receive Rot");
+        Debug.Log("Receive Rot2");
         byte byteType = bytes[0];
         bytes = bytes.Skip(0).ToArray();
 

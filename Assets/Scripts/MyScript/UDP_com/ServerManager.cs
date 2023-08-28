@@ -18,7 +18,7 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
 
     private UdpClient udpClient;
     private Subject<string> subject = new Subject<string>();
-    [SerializeField] Text message;
+    [SerializeField] Text message;   
 
     //[SerializeField] GameObject cube;
     private Vector3 cubePosition;
@@ -50,10 +50,13 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
                         break;
 
                     case "Pos":
+                        Debug.Log("Receive Pos3");
+                        handByte.TestReceivePos(IndexTipPos);
                         message.text = "Position Get";
                         break;
 
                     case "Rot":
+                        Debug.Log("Receive Rot3");
                         message.text = "Rotation Get";
                         break;
                 }
@@ -76,7 +79,7 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
 
         byte[] getByte = getUdp.EndReceive(result, ref ipEnd);
         byte byteType = getByte[0];
-        getByte = getByte.Skip(0).ToArray();
+        getByte = getByte.Skip(1).ToArray();
 
         //ëóêMBit
         // int - 0
@@ -104,12 +107,13 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
                 break;
 
             case 6:
-
-                handByte.ReceivePos(getByte);
+                Debug.Log("Receive Pos");
+                this.ReceivePos(getByte);
                 subject.OnNext("Pos");
                 break;
-            case 7:
 
+            case 7:
+                Debug.Log("Receive Rot");
                 handByte.ReceiveRot(getByte);
                 subject.OnNext("Rot");
                 break;
@@ -118,6 +122,7 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
         getUdp.BeginReceive(OnReceived, getUdp);
     }
 
+    //case5
     private void ReceiveVec(byte[] bytes)
     {
         cubePosition.x = BitConverter.ToSingle(bytes, 0);
@@ -125,6 +130,28 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
         cubePosition.z = BitConverter.ToSingle(bytes, 8);
 
         //return vec;
+    }
+
+    private Vector3 ByteToVec(byte[] bytes)
+    {
+        Vector3 vec;
+        vec.x = BitConverter.ToSingle(bytes, 0);
+        vec.y = BitConverter.ToSingle(bytes, 4);
+        vec.z = BitConverter.ToSingle(bytes, 8);
+
+        return vec;
+    }
+
+    //case6
+    Vector3 IndexTipPos;
+    private void ReceivePos(byte[] bytes)
+    {
+        //Debug.Log("Receive Pos2");
+        //byte byteType = bytes[0];
+        //bytes = bytes.Skip(0).ToArray();
+
+        IndexTipPos = ByteToVec(bytes);
+         //bornPos[(int)byteType] = positionVec;
     }
 
     private void OnDestroy()

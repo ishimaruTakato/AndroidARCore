@@ -19,7 +19,7 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     デフォルト ゲートウェイ . . . . . . .: 133.42.155.254
      */
 
-    //デスクトップPC 192.168.0.209
+    //デスクトップWIFI 192.168.0.209
     //ノートPC 133.42.155.160
     //ノートWIFI 192.168.0.85
     //スマホ 192.168.0.164
