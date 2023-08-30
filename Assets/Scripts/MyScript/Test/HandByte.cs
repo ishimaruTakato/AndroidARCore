@@ -7,26 +7,24 @@ using System.Linq;
 
 public class HandByte : SingletonMonoBehaviour<HandByte>
 {
-    [SerializeField] OVRSkeleton toSkeleton;
-    [SerializeField] OVRCustomSkeleton toCSkeleton;
-    [SerializeField] Transform[] myBones = new Transform[24];
+    //[SerializeField] OVRSkeleton toSkeleton;
+    //[SerializeField] OVRCustomSkeleton toCSkeleton;
 
     [SerializeField] GameObject testHandCube;
     [SerializeField] Text comformMessage;
 
-    //List<byte[]> bornPosByte = new List<byte[]>();
-    //List<byte[]> bornRotByte = new List<byte[]>();
-    Vector3[] bornPos = new Vector3[24];
-    Vector3[] bornRot = new Vector3[24];
+    [SerializeField] Transform[] myBones = new Transform[24];
+    [SerializeField] Transform[] myLeftBones = new Transform[24];
+
+    private Vector3[] rightBornPos = new Vector3[24];
+    private Vector3[] rightBornRot = new Vector3[24];
+    private Vector3[] leftBornPos = new Vector3[24];
+    private Vector3[] leftBornRot = new Vector3[24];
 
     // Start is called before the first frame update
     void Start()
     {
-        //for (int i = 0; i < 24; i++)
-        //{
-        //    bornPosByte.Add(new Byte[] { });
-        //    bornRotByte.Add(new Byte[] { });
-        //}
+        
     }
 
     // Update is called once per frame
@@ -37,67 +35,66 @@ public class HandByte : SingletonMonoBehaviour<HandByte>
 
     void UpdataHand()
     {
-        Vector3 veve;
         for(int i=0; i<24; i++)
         {
             //toCSkeleton.Bones[i].Transform.position = bornPos[i];
-            myBones[i].position = bornPos[i];
-            myBones[i].eulerAngles = bornRot[i];            
-            
+            myBones[i].position = rightBornPos[i];
+            myBones[i].eulerAngles = rightBornRot[i];
+
+            myLeftBones[i].position = leftBornPos[i];
+            myLeftBones[i].eulerAngles = leftBornRot[i];
         }
     }
 
-    public void ReceivePos(byte[] bytes)
+    private Vector3 ByteToVec(byte[] bytes)
+    {
+        Vector3 vec;
+        vec.x = BitConverter.ToSingle(bytes, 0);
+        vec.y = BitConverter.ToSingle(bytes, 4);
+        vec.z = BitConverter.ToSingle(bytes, 8);
+
+        return vec;
+    }
+
+    public void ReceiveRightPos(Vector3[] bornPosVec)
+    {        
+        rightBornPos = bornPosVec;
+    }
+
+    public void ReceiveRightRot(Vector3[] bornRotVec)
+    {        
+        rightBornRot = bornRotVec;        
+    }
+
+    public void ReceiveLeftPos(Vector3[] bornPosVec)
+    {
+        leftBornPos = bornPosVec;
+    }
+
+    public void ReceiveLeftRot(Vector3[] bornRotVec)
+    {
+        leftBornRot = bornRotVec;
+    }
+
+    public void TestReceivePos(byte[] bytes)
     {
         //Debug.Log("Receive Pos2");
         //byte byteType = bytes[0];
         //bytes = bytes.Skip(0).ToArray();
 
-        Vector3 positionVec = GetByteVec(bytes);
-        testHandCube.transform.position = positionVec;
+        //Debug.Log("Receive Index");
+        //testHandCube.transform.position = IndexPos;
+
+
         //bornPos[(int)byteType] = positionVec;
-    }
 
-    public void TestReceivePos(Vector3 IndexPos)
-    {
-        //Debug.Log("Receive Pos2");
-        //byte byteType = bytes[0];
-        //bytes = bytes.Skip(0).ToArray();
+        int index = ((int)bytes[0] * 10) + (int)bytes[1];
+        bytes = bytes.Skip(2).ToArray();
 
-        Debug.Log("Receive Index");
-        testHandCube.transform.position = IndexPos;
-        //bornPos[(int)byteType] = positionVec;
-    }
+        Debug.Log("Test Receive Pos Before:" + string.Join("", bytes.Select(n => n.ToString())));
+        Debug.Log("Test Receive Pos After:" + index + "\n" + string.Join("", bytes.Select(n => n.ToString())));
 
-
-
-    public void ReceiveRot(byte[] bytes)
-    {
-        Debug.Log("Receive Rot2");
-        byte byteType = bytes[0];
-        bytes = bytes.Skip(0).ToArray();
-
-        Vector3 rotationVec = GetByteVec(bytes);
-        bornRot[(int)byteType] = rotationVec;
-    }
-
-    //void ReceiveHand()
-    //{
-    //    for (int i = 0; i < 24; i++)
-    //    {
-    //        toCSkeleton.Bones[i].Transform.position = GetByteVec(bornPosByte[i]);
-    //        toCSkeleton.Bones[i].Transform.eulerAngles = GetByteVec(bornRotByte[i]);
-    //    }
-    //}
-
-    Vector3 GetByteVec(byte[] bytes)
-    {
-        Vector3 vector3;
-
-        vector3.x = BitConverter.ToSingle(bytes, 0);
-        vector3.y = BitConverter.ToSingle(bytes, 4);
-        vector3.z = BitConverter.ToSingle(bytes, 8);
-
-        return vector3;
-    }
+        Vector3 vec = ByteToVec(bytes);
+        testHandCube.transform.position = vec;
+    }    
 }

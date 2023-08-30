@@ -15,7 +15,6 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
 {
     HandByte handByte;
 
-
     private UdpClient udpClient;
     private Subject<string> subject = new Subject<string>();
     [SerializeField] Text message;   
@@ -49,16 +48,32 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
                         //cube.transform.position = cubePosition;
                         break;
 
-                    case "Pos":
-                        Debug.Log("Receive Pos3");
-                        handByte.TestReceivePos(IndexTipPos);
-                        message.text = "Position Get";
+                    case "RightPos":
+                        handByte.ReceiveRightPos(rightBornPos);
+                        //handByte.TestReceivePos(IndexTipPos);
+                        //message.text = "Position Get";
                         break;
 
-                    case "Rot":
-                        Debug.Log("Receive Rot3");
-                        message.text = "Rotation Get";
+                    case "RightRot":
+                        handByte.ReceiveRightRot(rightBornRot);
+                        //message.text = "Rotation Get";
                         break;
+
+                    case "LeftPos":
+                        handByte.ReceiveLeftPos(leftBornPos);
+                        //handByte.TestReceivePos(IndexTipPos);
+                        //message.text = "Position Get";
+                        break;
+
+                    case "LeftRot":
+                        handByte.ReceiveLeftRot(leftBornRot);
+                        //message.text = "Rotation Get";
+                        break;
+
+                        //case "TestPos":
+                        //    handByte.TestReceivePos(IndexTipPosByte);
+                        //    message.text = "Test Pos Get";
+                        //    break;
                 }
 
 
@@ -100,36 +115,38 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
 
                 break;
 
-            case 5:
-                
+            case 5:                
                 ReceiveVec(getByte);             
                 subject.OnNext("V");
                 break;
 
-            case 6:
-                Debug.Log("Receive Pos");
-                this.ReceivePos(getByte);
-                subject.OnNext("Pos");
+            case 6:                                          
+                this.ReceiveRightPos(getByte);
+                subject.OnNext("RightPos");
                 break;
 
-            case 7:
-                Debug.Log("Receive Rot");
-                handByte.ReceiveRot(getByte);
-                subject.OnNext("Rot");
+            case 7:                
+                this.ReceiveRightRot(getByte);
+                subject.OnNext("RightRot");
                 break;
+
+            case 8:
+                this.ReceiveLeftPos(getByte);
+                subject.OnNext("LeftPos");
+                break;
+
+            case 9:
+                this.ReceiveLeftRot(getByte);
+                subject.OnNext("LeftRot");
+                break;
+
+                //case 8:
+                //    this.TestReceivePos(getByte);
+                //    subject.OnNext("TestPos");
+                //    break;
         }
 
         getUdp.BeginReceive(OnReceived, getUdp);
-    }
-
-    //case5
-    private void ReceiveVec(byte[] bytes)
-    {
-        cubePosition.x = BitConverter.ToSingle(bytes, 0);
-        cubePosition.y = BitConverter.ToSingle(bytes, 4);
-        cubePosition.z = BitConverter.ToSingle(bytes, 8);
-
-        //return vec;
     }
 
     private Vector3 ByteToVec(byte[] bytes)
@@ -142,17 +159,73 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
         return vec;
     }
 
-    //case6
-    Vector3 IndexTipPos;
-    private void ReceivePos(byte[] bytes)
+    //case5
+    private void ReceiveVec(byte[] bytes)
     {
-        //Debug.Log("Receive Pos2");
-        //byte byteType = bytes[0];
-        //bytes = bytes.Skip(0).ToArray();
+        Vector3 cameraCubePos = ByteToVec(bytes);
 
-        IndexTipPos = ByteToVec(bytes);
-         //bornPos[(int)byteType] = positionVec;
+        cubePosition.x = cameraCubePos.x;
+        cubePosition.y = cameraCubePos.y;
+        cubePosition.z = cameraCubePos.z;
+    }    
+
+    //case6    
+    private Vector3[] rightBornPos = new Vector3[24];
+    private Vector3[] rightBornRot = new Vector3[24];
+
+    private void ReceiveRightPos(byte[] bytes)
+    {
+        byte index = bytes[0];
+        bytes = bytes.Skip(1).ToArray();
+
+        this.rightBornPos[index] = ByteToVec(bytes);
+    }    
+
+    //case7
+    private void ReceiveRightRot(byte[] bytes)
+    {        
+        byte index = bytes[0];        
+        bytes = bytes.Skip(1).ToArray();
+
+        this.rightBornRot[index] = ByteToVec(bytes);
     }
+
+    //case8    
+    private Vector3[] leftBornPos = new Vector3[24];
+    private Vector3[] leftBornRot = new Vector3[24];
+
+    private void ReceiveLeftPos(byte[] bytes)
+    {
+        byte index = bytes[0];
+        bytes = bytes.Skip(1).ToArray();
+
+        this.leftBornPos[index] = ByteToVec(bytes);
+    }
+
+    //case9
+    private void ReceiveLeftRot(byte[] bytes)
+    {
+        byte index = bytes[0];
+        bytes = bytes.Skip(1).ToArray();
+
+        this.leftBornRot[index] = ByteToVec(bytes);
+    }
+
+
+
+    //case8
+    //Vector3 IndexTipPos;
+    //byte[] IndexTipPosByte;
+    //private void TestReceivePos(byte[] bytes)
+    //{
+    //    //int index = ((int)bytes[0] * 10) + (int)bytes[1];
+    //    //bytes = bytes.Skip(2).ToArray();
+
+    //    //Debug.Log("Test Receive Pos Before:" + string.Join("", bytes.Select(n => n.ToString())));
+    //    //Debug.Log("Test Receive Pos After:" + index + "\n" + string.Join("", bytes.Select(n => n.ToString())));
+
+    //    IndexTipPosByte = bytes;
+    //}
 
     private void OnDestroy()
     {
