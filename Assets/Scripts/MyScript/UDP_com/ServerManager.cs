@@ -103,8 +103,10 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
         // string -3
         // char - 4
         //vector -5
-        //vectorPos -6
-        //vectorRot -7
+        //rightVectorPos -6
+        //rightVectorRot -7
+        //leftVectorPos -8
+        //leftVectorRot -9
 
         switch (byteType)
         {

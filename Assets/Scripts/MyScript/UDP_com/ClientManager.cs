@@ -31,6 +31,10 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     // string -3
     // char - 4
     //vector -5
+    //rightVectorPos -6
+    //rightVectorRot -7
+    //leftVectorPos -8
+    //leftVectorRot -9
 
     private string host = "192.168.0.209";
     private int port = 9000;
@@ -81,9 +85,10 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     // string -3
     // char - 4
     //vector -5
-
-    //vectorPos -6
-    //vectorRot -7
+    //rightVectorPos -6
+    //rightVectorRot -7
+    //leftVectorPos -8
+    //leftVectorRot -9
 
     private void Send(byte[] bytes)
     {
