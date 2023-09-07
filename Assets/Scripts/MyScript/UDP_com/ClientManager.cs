@@ -35,6 +35,7 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     //rightVectorRot -7
     //leftVectorPos -8
     //leftVectorRot -9
+    //positionAdjust -10
 
     private string host = "192.168.0.209";
     private int port = 9000;
@@ -89,6 +90,7 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     //rightVectorRot -7
     //leftVectorPos -8
     //leftVectorRot -9
+    //positionAdjust -10
 
     private void Send(byte[] bytes)
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AndroidManager : MonoBehaviour
+public class AndroidManager : SingletonMonoBehaviour<AndroidManager>
 {
     //TEST—p
     ClientManager clientManager;
@@ -43,5 +43,10 @@ public class AndroidManager : MonoBehaviour
         //posMessage.text = "This.CameraPos: x=" +androidCamera.transform.position.x+
         //                  "\ny=" + androidCamera.transform.position.y +
         //                  "\nz=" + androidCamera.transform.position.z;
+    }
+
+    public void PositionAdjust()
+    {
+
     }
 }

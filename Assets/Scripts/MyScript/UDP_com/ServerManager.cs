@@ -14,6 +14,7 @@ using UnityEngine.UI;
 public class ServerManager : SingletonMonoBehaviour<ServerManager> 
 {
     HandByte handByte;
+    AndroidManager androidManager;
 
     private UdpClient udpClient;
     private Subject<string> subject = new Subject<string>();
@@ -27,6 +28,7 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
     void Start()
     {
         handByte = HandByte.Instance;
+        androidManager = AndroidManager.Instance;
 
         udpClient = new UdpClient(9000);
         udpClient.BeginReceive(OnReceived, udpClient);
@@ -70,6 +72,10 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
                         //message.text = "Rotation Get";
                         break;
 
+                    case "PositionAdjust":
+                        androidManager.PositionAdjust();
+                        break;
+
                         //case "TestPos":
                         //    handByte.TestReceivePos(IndexTipPosByte);
                         //    message.text = "Test Pos Get";
@@ -107,6 +113,7 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
         //rightVectorRot -7
         //leftVectorPos -8
         //leftVectorRot -9
+        //positionAdjust -10
 
         switch (byteType)
         {
@@ -140,6 +147,11 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
             case 9:
                 this.ReceiveLeftRot(getByte);
                 subject.OnNext("LeftRot");
+                break;
+
+            case 10:
+                this.PositionAdjust(getByte);
+                subject.OnNext("PositionAdjust");
                 break;
 
                 //case 8:
@@ -213,9 +225,13 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
         this.leftBornRot[index] = ByteToVec(bytes);
     }
 
+    //case10
+    private void PositionAdjust(byte[] bytes)
+    {
 
+    }
 
-    //case8
+    //caseXX
     //Vector3 IndexTipPos;
     //byte[] IndexTipPosByte;
     //private void TestReceivePos(byte[] bytes)
