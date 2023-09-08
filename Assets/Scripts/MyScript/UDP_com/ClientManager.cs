@@ -68,8 +68,9 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
             {
                 text.text = "—£‚µyon\nto "+host;
 
-                Debug.Log("Send");
-                SendString("Hello Touch World!");
+                Debug.Log("Send Touch --10");
+                byte[] vecByte = new byte[] {10,22 };
+                Send(vecByte);
             }
 
             if (touch.phase == TouchPhase.Moved)

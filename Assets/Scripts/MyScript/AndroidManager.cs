@@ -13,6 +13,11 @@ public class AndroidManager : SingletonMonoBehaviour<AndroidManager>
     [SerializeField] Camera androidCamera;
     [SerializeField] Text posMessage;
 
+    [SerializeField] GameObject parentVR;
+
+    [SerializeField] GameObject TestParentVR;
+    [SerializeField] GameObject TestParentAndroid;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +30,9 @@ public class AndroidManager : SingletonMonoBehaviour<AndroidManager>
     void Update()
     {
         SendCameraPos();
+
+        TestParentAndroid.transform.position = androidCamera.transform.position;
+        TestParentAndroid.transform.eulerAngles = androidCamera.transform.eulerAngles;
     }
 
     /*
@@ -45,8 +53,44 @@ public class AndroidManager : SingletonMonoBehaviour<AndroidManager>
         //                  "\nz=" + androidCamera.transform.position.z;
     }
 
-    public void PositionAdjust()
+    //case 5
+    Vector3 tenDiff = new Vector3(0,-0.1f,-0.03f);
+    public void ReceiveVR(Vector3 VRPos , Vector3 VRRot)
     {
+        TestParentVR.transform.position = VRPos + parentVR.transform.position + tenDiff;
+        TestParentVR.transform.eulerAngles = VRRot + parentVR.transform.eulerAngles;
+    }
 
+    //case 10
+    Vector3 Diff;
+    Vector3 beforeVRPos;
+    Vector3 beforeVRRot;
+
+    public void PositionAdjust(Vector3 realAndroidPos)
+    {
+        Debug.Log("Position Adjust");
+        //Vector3 AndroidDiff = androidCamera.transform.eulerAngles - AndroidRot;
+        //Vector3 VRDiff = VRRot + AndroidDiff; 
+        //parentVR.transform.position = androidCamera.transform.position + AndroidToVR;
+
+
+        
+        Vector3 tempPos= androidCamera.transform.position - realAndroidPos;
+        tempPos.y = 1.2f;
+        TestParentVR.transform.position = tempPos;
+        TestParentVR.transform.eulerAngles = androidCamera.transform.eulerAngles;
+
+        
+        parentVR.transform.position = tempPos - new Vector3(0,1.2f,0);
+        Vector3 tempRot = new Vector3(0, androidCamera.transform.eulerAngles.y, 0);
+        parentVR.transform.eulerAngles = tempRot;
+
+        //TestParentVR.transform.position = 
+        //    androidCamera.transform.position + AndroidToVR;
+        //TestParentVR.transform.eulerAngles = VRDiff;
+
+        //TestParentAndroid.transform.position = androidCamera.transform.position;
+        //TestParentAndroid.transform.eulerAngles = androidCamera.transform.eulerAngles;
+        
     }
 }

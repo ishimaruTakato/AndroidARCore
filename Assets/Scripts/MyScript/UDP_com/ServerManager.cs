@@ -45,35 +45,30 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
                     case "M":
                         message.text = msg;
                         break;
-                    case "V":
-                        message.text = "Position Change";
+                    case "VR":
+                        //message.text = "Position Change";
                         //cube.transform.position = cubePosition;
+                        androidManager.ReceiveVR(VRPos, VRRot);
                         break;
 
                     case "RightPos":
-                        handByte.ReceiveRightPos(rightBornPos);
-                        //handByte.TestReceivePos(IndexTipPos);
-                        //message.text = "Position Get";
+                        handByte.ReceiveRightPos(rightBornPos);                        
                         break;
 
                     case "RightRot":
                         handByte.ReceiveRightRot(rightBornRot);
-                        //message.text = "Rotation Get";
                         break;
 
                     case "LeftPos":
                         handByte.ReceiveLeftPos(leftBornPos);
-                        //handByte.TestReceivePos(IndexTipPos);
-                        //message.text = "Position Get";
                         break;
 
                     case "LeftRot":
                         handByte.ReceiveLeftRot(leftBornRot);
-                        //message.text = "Rotation Get";
                         break;
 
                     case "PositionAdjust":
-                        androidManager.PositionAdjust();
+                        androidManager.PositionAdjust(realAndroidPos);
                         break;
 
                         //case "TestPos":
@@ -125,8 +120,8 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
                 break;
 
             case 5:                
-                ReceiveVec(getByte);             
-                subject.OnNext("V");
+                this.ReceiveVR(getByte);             
+                subject.OnNext("VR");
                 break;
 
             case 6:                                          
@@ -174,14 +169,19 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
     }
 
     //case5
-    private void ReceiveVec(byte[] bytes)
+    private Vector3 VRPos;
+    private Vector3 VRRot;
+    private void ReceiveVR(byte[] bytes)
     {
-        Vector3 cameraCubePos = ByteToVec(bytes);
+        
+        this.VRPos.x = BitConverter.ToSingle(bytes, 0);
+        this.VRPos.y = BitConverter.ToSingle(bytes, 4);
+        this.VRPos.z = BitConverter.ToSingle(bytes, 8);
 
-        cubePosition.x = cameraCubePos.x;
-        cubePosition.y = cameraCubePos.y;
-        cubePosition.z = cameraCubePos.z;
-    }    
+        this.VRRot.x = BitConverter.ToSingle(bytes, 12);
+        this.VRRot.y = BitConverter.ToSingle(bytes, 16);
+        this.VRRot.z = BitConverter.ToSingle(bytes, 20);
+    }
 
     //case6    
     private Vector3[] rightBornPos = new Vector3[24];
@@ -225,10 +225,49 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
         this.leftBornRot[index] = ByteToVec(bytes);
     }
 
+
     //case10
+    Vector3 AndroidToVR;
+    Vector3 AndroidRot;
+    //Vector3 VRRot;
+
+    Vector3 realAndroidPos;
+
     private void PositionAdjust(byte[] bytes)
     {
+        //byte index = bytes[0];
+        //bytes = bytes.Skip(1).ToArray();
 
+        this.realAndroidPos = ByteToVec(bytes);
+
+        
+
+        //AndroidToVR.x = BitConverter.ToSingle(bytes, 0);
+        //AndroidToVR.y = BitConverter.ToSingle(bytes, 4);
+        //AndroidToVR.z = BitConverter.ToSingle(bytes, 8);
+
+        //AndroidRot.x = BitConverter.ToSingle(bytes, 12);
+        //AndroidRot.y = BitConverter.ToSingle(bytes, 16);
+        //AndroidRot.z = BitConverter.ToSingle(bytes, 20);
+
+        //VRRot.x = BitConverter.ToSingle(bytes, 24);
+        //VRRot.y = BitConverter.ToSingle(bytes, 28);
+        //VRRot.z = BitConverter.ToSingle(bytes, 32);
+
+        //switch (index)
+        //{
+        //    case 1:
+        //        this.AndroidToVR = ByteToVec(bytes);
+        //        break;
+
+        //    case 2:
+        //        this.AndroidToVR = ByteToVec(bytes);
+        //        break;
+
+        //    case 3:
+        //        this.AndroidToVR = ByteToVec(bytes);
+        //        break;
+        //}
     }
 
     //caseXX

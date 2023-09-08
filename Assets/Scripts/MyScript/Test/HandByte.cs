@@ -13,6 +13,8 @@ public class HandByte : SingletonMonoBehaviour<HandByte>
     [SerializeField] GameObject testHandCube;
     [SerializeField] Text comformMessage;
 
+    [SerializeField] Transform parentVR;
+
     [SerializeField] Transform[] myBones = new Transform[24];
     [SerializeField] Transform[] myLeftBones = new Transform[24];
 
@@ -38,11 +40,11 @@ public class HandByte : SingletonMonoBehaviour<HandByte>
         for(int i=0; i<24; i++)
         {
             //toCSkeleton.Bones[i].Transform.position = bornPos[i];
-            myBones[i].position = rightBornPos[i];
-            myBones[i].eulerAngles = rightBornRot[i];
+            myBones[i].position = rightBornPos[i] + parentVR.position;
+            myBones[i].eulerAngles = rightBornRot[i] + parentVR.eulerAngles;
 
-            myLeftBones[i].position = leftBornPos[i];
-            myLeftBones[i].eulerAngles = leftBornRot[i];
+            myLeftBones[i].position = leftBornPos[i] + parentVR.position;
+            myLeftBones[i].eulerAngles = leftBornRot[i] + parentVR.eulerAngles;
         }
     }
 
