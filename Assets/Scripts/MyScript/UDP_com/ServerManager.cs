@@ -235,39 +235,7 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
 
     private void PositionAdjust(byte[] bytes)
     {
-        //byte index = bytes[0];
-        //bytes = bytes.Skip(1).ToArray();
-
         this.realAndroidPos = ByteToVec(bytes);
-
-        
-
-        //AndroidToVR.x = BitConverter.ToSingle(bytes, 0);
-        //AndroidToVR.y = BitConverter.ToSingle(bytes, 4);
-        //AndroidToVR.z = BitConverter.ToSingle(bytes, 8);
-
-        //AndroidRot.x = BitConverter.ToSingle(bytes, 12);
-        //AndroidRot.y = BitConverter.ToSingle(bytes, 16);
-        //AndroidRot.z = BitConverter.ToSingle(bytes, 20);
-
-        //VRRot.x = BitConverter.ToSingle(bytes, 24);
-        //VRRot.y = BitConverter.ToSingle(bytes, 28);
-        //VRRot.z = BitConverter.ToSingle(bytes, 32);
-
-        //switch (index)
-        //{
-        //    case 1:
-        //        this.AndroidToVR = ByteToVec(bytes);
-        //        break;
-
-        //    case 2:
-        //        this.AndroidToVR = ByteToVec(bytes);
-        //        break;
-
-        //    case 3:
-        //        this.AndroidToVR = ByteToVec(bytes);
-        //        break;
-        //}
     }
 
     //caseXX

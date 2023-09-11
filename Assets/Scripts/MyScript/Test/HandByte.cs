@@ -23,6 +23,9 @@ public class HandByte : SingletonMonoBehaviour<HandByte>
     private Vector3[] leftBornPos = new Vector3[24];
     private Vector3[] leftBornRot = new Vector3[24];
 
+    private Vector3 VRHandDiff;
+    private Vector3 VRHandReferenceEular;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,12 +42,12 @@ public class HandByte : SingletonMonoBehaviour<HandByte>
     {
         for(int i=0; i<24; i++)
         {
-            //toCSkeleton.Bones[i].Transform.position = bornPos[i];
-            myBones[i].position = rightBornPos[i] + parentVR.position;
-            myBones[i].eulerAngles = rightBornRot[i] + parentVR.eulerAngles;
+            //Born‚ÌˆÊ’uXV
+            myBones[i].position = rightBornPos[i];
+            myBones[i].eulerAngles = rightBornRot[i];
 
-            myLeftBones[i].position = leftBornPos[i] + parentVR.position;
-            myLeftBones[i].eulerAngles = leftBornRot[i] + parentVR.eulerAngles;
+            myLeftBones[i].position = leftBornPos[i];
+            myLeftBones[i].eulerAngles = leftBornRot[i];
         }
     }
 

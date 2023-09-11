@@ -43,6 +43,9 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
 
     [SerializeField] Text text;
 
+  
+    [SerializeField] Text comformText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,7 +64,7 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
 
             if (touch.phase == TouchPhase.Began)
             {                
-                text.text = "‰Ÿ‚µ‚½";
+                text.text = "‰Ÿ‚µ‚½";                
             }
 
             if (touch.phase == TouchPhase.Ended)
@@ -114,13 +117,7 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
         byte[] xByte = BitConverter.GetBytes(x);
         byte[] yByte = BitConverter.GetBytes(y);
         byte[] zByte = BitConverter.GetBytes(z);
-
-        //string test = "";
-        //foreach (var i in xByte)
-        //{
-        //    test += i + ", ";
-        //}
-
+        
         byte[] vecByte = xByte.Concat(yByte.Concat(zByte).ToArray()).ToArray();
         vecByte = vecByte.Concat(new byte[] { 5 }).ToArray();
 
