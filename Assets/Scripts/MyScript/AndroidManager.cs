@@ -54,10 +54,11 @@ public class AndroidManager : SingletonMonoBehaviour<AndroidManager>
     }
 
     //case 5
-    Vector3 tenDiff = new Vector3(0,-0.1f,-0.03f);
+    Vector3 tenDiff = new Vector3(0,-0.4f,-0.06f);
     public void ReceiveVR(Vector3 VRPos , Vector3 VRRot)
     {
-        TestParentVR.transform.position = VRPos + parentVR.transform.position + tenDiff;
+        Vector3 tenDiffQ = Quaternion.Euler(parentVR.transform.eulerAngles) * tenDiff;
+        TestParentVR.transform.position = VRPos + parentVR.transform.position + tenDiffQ;
         TestParentVR.transform.eulerAngles = VRRot + parentVR.transform.eulerAngles;
     }
 
@@ -73,15 +74,17 @@ public class AndroidManager : SingletonMonoBehaviour<AndroidManager>
         //Vector3 VRDiff = VRRot + AndroidDiff; 
         //parentVR.transform.position = androidCamera.transform.position + AndroidToVR;
 
-
+        beforeVRPos = TestParentVR.transform.position;
+        beforeVRRot = TestParentVR.transform.eulerAngles;
+        
         
         Vector3 tempPos= androidCamera.transform.position - realAndroidPos;
-        tempPos.y = 1.2f;
+        tempPos.y = 1.15f;
         TestParentVR.transform.position = tempPos;
         TestParentVR.transform.eulerAngles = androidCamera.transform.eulerAngles;
 
         
-        parentVR.transform.position = tempPos - new Vector3(0,1.2f,0);
+        parentVR.transform.position = tempPos - new Vector3(0,1.15f,0);
         Vector3 tempRot = new Vector3(0, androidCamera.transform.eulerAngles.y, 0);
         parentVR.transform.eulerAngles = tempRot;
 
