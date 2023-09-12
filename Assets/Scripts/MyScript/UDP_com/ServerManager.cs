@@ -15,6 +15,7 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
 {
     HandByte handByte;
     AndroidManager androidManager;
+    ObjectManager objectManager;
 
     private UdpClient udpClient;
     private Subject<string> subject = new Subject<string>();
@@ -29,6 +30,7 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
     {
         handByte = HandByte.Instance;
         androidManager = AndroidManager.Instance;
+        objectManager = ObjectManager.Instance;
 
         udpClient = new UdpClient(9000);
         udpClient.BeginReceive(OnReceived, udpClient);
@@ -71,6 +73,10 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
                         androidManager.PositionAdjust(realAndroidPos);
                         break;
 
+                    case "ObjectHighLight":
+                        objectManager.ChangeObjectHighLight(highLightObjectIndex,highLightOnOff);
+                        break;
+
                         //case "TestPos":
                         //    handByte.TestReceivePos(IndexTipPosByte);
                         //    message.text = "Test Pos Get";
@@ -109,6 +115,7 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
         //leftVectorPos -8
         //leftVectorRot -9
         //positionAdjust -10
+        //objectHighLight -11
 
         switch (byteType)
         {
@@ -147,6 +154,11 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
             case 10:
                 this.PositionAdjust(getByte);
                 subject.OnNext("PositionAdjust");
+                break;
+
+            case 11:
+                this.ReceiveObjectHighLight(getByte);
+                subject.OnNext("ObjectHighLight");
                 break;
 
                 //case 8:
@@ -236,6 +248,18 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
     private void PositionAdjust(byte[] bytes)
     {
         this.realAndroidPos = ByteToVec(bytes);
+    }
+
+
+    //case 11
+    int highLightOnOff;
+    int highLightObjectIndex;
+    private void ReceiveObjectHighLight(byte[] bytes)
+    {
+        highLightOnOff = (int)bytes[0];
+        bytes = bytes.Skip(1).ToArray();
+
+        highLightObjectIndex = (int)bytes[0];
     }
 
     //caseXX
