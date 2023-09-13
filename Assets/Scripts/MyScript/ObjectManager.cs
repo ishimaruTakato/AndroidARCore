@@ -28,7 +28,7 @@ public class ObjectManager : SingletonMonoBehaviour<ObjectManager>
             if (touch.phase == TouchPhase.Ended)
             {
                 //—£‚µ‚½Žž
-                inRoomObjects[1].layer = 6;
+                
             }
 
             
