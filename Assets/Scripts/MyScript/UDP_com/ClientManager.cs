@@ -45,6 +45,8 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
 
   
     [SerializeField] Text comformText;
+    [SerializeField] Text moveFlagText;
+    int castFlag = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -71,8 +73,13 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
             {
                 text.text = "—£‚µyon\nto "+host;
 
-                Debug.Log("Send Touch --10");
-                byte[] vecByte = new byte[] {10,22 };
+                Debug.Log("Send Touch --12");
+
+                if (castFlag == 0) castFlag =1;
+                else castFlag=0;
+                moveFlagText.text = "MoveFlag ="+ castFlag;
+
+                byte[] vecByte = new byte[] {12, (byte)castFlag};
                 Send(vecByte);
             }
 
@@ -95,6 +102,8 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     //leftVectorPos -8
     //leftVectorRot -9
     //positionAdjust -10
+    //objectHighLight -11
+    //objectSelect -12
 
     private void Send(byte[] bytes)
     {

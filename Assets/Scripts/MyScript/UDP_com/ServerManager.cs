@@ -47,6 +47,7 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
                     case "M":
                         message.text = msg;
                         break;
+
                     case "VR":
                         //message.text = "Position Change";
                         //cube.transform.position = cubePosition;
