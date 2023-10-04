@@ -71,7 +71,7 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
                         break;
 
                     case "PositionAdjust":
-                        androidManager.PositionAdjust(realAndroidPos);
+                        androidManager.PositionAdjust(realAndroidPos,androidEularY);
                         break;
 
                     case "ObjectHighLight":
@@ -245,11 +245,18 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
     //Vector3 VRRot;
 
     Vector3 realAndroidPos;
+    float androidEularY;
 
     private void PositionAdjust(byte[] bytes)
     {
-        this.realAndroidPos = ByteToVec(bytes);
-    }
+        Vector3 vec;
+        vec.x = BitConverter.ToSingle(bytes, 0);
+        vec.y = BitConverter.ToSingle(bytes, 4);
+        vec.z = BitConverter.ToSingle(bytes, 8);
+        this.realAndroidPos = vec;
+
+        this.androidEularY = BitConverter.ToSingle(bytes, 12);
+    }   
 
 
     //case 11

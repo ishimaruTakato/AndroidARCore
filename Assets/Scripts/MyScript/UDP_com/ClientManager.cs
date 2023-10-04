@@ -24,6 +24,11 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     //ノートWIFI 192.168.0.85
     //スマホ 192.168.0.164
 
+    //A804
+    //デスクトップWIFI 192.168.0.210
+    //スマホ 192.168.0.157
+
+
     //送信Bit
     // int - 0
     // float - 1
@@ -37,7 +42,7 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     //leftVectorRot -9
     //positionAdjust -10
 
-    private string host = "192.168.0.209";
+    private string host = "192.168.0.210";
     private int port = 9000;
     private UdpClient client;
 
@@ -47,13 +52,14 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     [SerializeField] Text comformText;
     [SerializeField] Text moveFlagText;
     int castFlag = 0;
+    ObjectManager objectManager;
 
     // Start is called before the first frame update
     void Start()
     {
         client = new UdpClient();
         client.Connect(host, port);
-
+        objectManager = ObjectManager.Instance;
         text.text = host;
     }
 
@@ -75,9 +81,19 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
 
                 Debug.Log("Send Touch --12");
 
-                if (castFlag == 0) castFlag =1;
-                else castFlag=0;
-                moveFlagText.text = "MoveFlag ="+ castFlag;
+                if (castFlag == 0)
+                {
+                    castFlag = 1;
+                    moveFlagText.text = "MoveFlag ON";
+                }
+                else
+                {
+                    castFlag = 0;
+                    moveFlagText.text = "MoveFlag OFF";
+                    objectManager.EmphasisReset();
+                }
+
+                
 
                 byte[] vecByte = new byte[] {12, (byte)castFlag};
                 Send(vecByte);

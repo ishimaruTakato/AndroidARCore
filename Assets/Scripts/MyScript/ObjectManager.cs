@@ -48,4 +48,12 @@ public class ObjectManager : SingletonMonoBehaviour<ObjectManager>
             inRoomObjects[objectIndex].layer = 0;
         }
     }
+
+    public void EmphasisReset()
+    {
+        foreach(var roomObject in inRoomObjects)
+        {
+            roomObject.layer = 0;
+        }
+    }
 }

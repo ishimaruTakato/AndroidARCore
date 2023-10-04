@@ -57,14 +57,14 @@ public class AndroidManager : SingletonMonoBehaviour<AndroidManager>
     //Vector3 beforeVRPos;
     //Vector3 beforeVRRot;
 
-    public void PositionAdjust(Vector3 realAndroidPos)
+    public void PositionAdjust(Vector3 realAndroidPos, float androidEularY)
     {
         //realAndroidPos‚ÍVR‚©‚çAndroid‚ÉˆÚ“®‚·‚éƒxƒNƒgƒ‹
         Debug.Log("Position Adjust");        
         
         Vector3 moveVec = Quaternion.Euler(0,TestParentVR.transform.eulerAngles.y,0) * realAndroidPos;
         ARSessionOrigin.transform.position = TestParentVR.transform.position + moveVec;
-        ARSessionOrigin.transform.eulerAngles = new Vector3(0, TestParentVR.transform.eulerAngles.y, 0);
+        ARSessionOrigin.transform.eulerAngles = new Vector3(0, TestParentVR.transform.eulerAngles.y + androidEularY, 0);
         comformMessage2.text = "ARCamera: x=" + androidCamera.transform.localPosition.x + "--y=" + androidCamera.transform.localPosition.y + "--z=" + androidCamera.transform.localPosition.z;
 
         roomObject.transform.position = TestParentVR.transform.position;
