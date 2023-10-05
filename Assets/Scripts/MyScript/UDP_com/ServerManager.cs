@@ -14,7 +14,7 @@ using UnityEngine.UI;
 public class ServerManager : SingletonMonoBehaviour<ServerManager> 
 {
     HandByte handByte;
-    AndroidManager androidManager;
+    [SerializeField] AndroidManager androidManager;
     ObjectManager objectManager;
 
     private UdpClient udpClient;
@@ -29,7 +29,7 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
     void Start()
     {
         handByte = HandByte.Instance;
-        androidManager = AndroidManager.Instance;
+        //androidManager = AndroidManager.Instance;
         objectManager = ObjectManager.Instance;
 
         udpClient = new UdpClient(9000);
@@ -75,7 +75,11 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
                         break;
 
                     case "ObjectHighLight":
-                        objectManager.ChangeObjectHighLight(highLightObjectIndex,highLightOnOff);
+                        objectManager.ChangeObjectHighLight(highLightObjectIndex);
+                        break;
+
+                    case "ARrightHand":
+                        objectManager.ARHandOpen(ARrightHandPos);
                         break;
 
                         //case "TestPos":
@@ -161,11 +165,11 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
                 this.ReceiveObjectHighLight(getByte);
                 subject.OnNext("ObjectHighLight");
                 break;
-
-                //case 8:
-                //    this.TestReceivePos(getByte);
-                //    subject.OnNext("TestPos");
-                //    break;
+                            
+            case 13:
+                this.ReceiveARrightHandPos(getByte);
+                subject.OnNext("ARrightHand");
+                break;
         }
 
         getUdp.BeginReceive(OnReceived, getUdp);
@@ -270,19 +274,12 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
         highLightObjectIndex = (int)bytes[0];
     }
 
-    //caseXX
-    //Vector3 IndexTipPos;
-    //byte[] IndexTipPosByte;
-    //private void TestReceivePos(byte[] bytes)
-    //{
-    //    //int index = ((int)bytes[0] * 10) + (int)bytes[1];
-    //    //bytes = bytes.Skip(2).ToArray();
-
-    //    //Debug.Log("Test Receive Pos Before:" + string.Join("", bytes.Select(n => n.ToString())));
-    //    //Debug.Log("Test Receive Pos After:" + index + "\n" + string.Join("", bytes.Select(n => n.ToString())));
-
-    //    IndexTipPosByte = bytes;
-    //}
+    //case13
+    Vector3 ARrightHandPos;
+    private void ReceiveARrightHandPos(byte[] bytes)
+    {
+        ARrightHandPos = ByteToVec(bytes);
+    }
 
     private void OnDestroy()
     {
