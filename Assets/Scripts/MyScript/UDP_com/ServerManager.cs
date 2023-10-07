@@ -19,7 +19,8 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
 
     private UdpClient udpClient;
     private Subject<string> subject = new Subject<string>();
-    [SerializeField] Text message;   
+    [SerializeField] Text message;
+    [SerializeField] Transform Adjust;
 
     //[SerializeField] GameObject cube;
     private Vector3 cubePosition;
@@ -198,6 +199,8 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
         this.VRRot.x = BitConverter.ToSingle(bytes, 12);
         this.VRRot.y = BitConverter.ToSingle(bytes, 16);
         this.VRRot.z = BitConverter.ToSingle(bytes, 20);
+
+        
     }
 
     //case6    

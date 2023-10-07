@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Linq;
+using UnityEngine.XR.ARFoundation;
 
 //This program is Andriod Side 
 
@@ -48,6 +49,7 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
 
     [SerializeField] Text text;
 
+    [SerializeField] GameObject roomOb;
   
     [SerializeField] Text comformText;
     [SerializeField] Text moveFlagText;
@@ -72,7 +74,8 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
 
             if (touch.phase == TouchPhase.Began)
             {                
-                text.text = "‰Ÿ‚µ‚½";                
+                text.text = "‰Ÿ‚µ‚½";
+                
             }
 
             if (touch.phase == TouchPhase.Ended)
@@ -99,10 +102,10 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
                 Send(vecByte);
             }
 
-            if (touch.phase == TouchPhase.Moved)
-            {                
-                text.text = "‰Ÿ‚µ‚Á‚Ï";
-            }
+            //if (touch.phase == TouchPhase.Moved)
+            //{                
+            //    text.text = "‰Ÿ‚µ‚Á‚Ï";
+            //}
         }             
     }
 

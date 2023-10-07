@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.ARFoundation;
+
 
 public class AndroidManager : MonoBehaviour
 {
@@ -19,6 +21,8 @@ public class AndroidManager : MonoBehaviour
 
     [SerializeField] GameObject ARSessionOrigin;
     [SerializeField] GameObject roomObject;
+    [SerializeField] GameObject Adjust;
+    [SerializeField] GameObject VRAdjust;
 
     // Start is called before the first frame update
     void Start()
@@ -31,10 +35,9 @@ public class AndroidManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SendCameraPos();
-
-        TestParentAndroid.transform.position = androidCamera.transform.position;
-        TestParentAndroid.transform.eulerAngles = androidCamera.transform.eulerAngles;
+        //SendCameraPos();
+        //TestParentAndroid.transform.position = androidCamera.transform.position;
+        //TestParentAndroid.transform.eulerAngles = androidCamera.transform.eulerAngles;
     }    
 
     private void SendCameraPos()
@@ -45,9 +48,19 @@ public class AndroidManager : MonoBehaviour
     //case 5
     public void ReceiveVR(Vector3 VRPos , Vector3 VRRot)
     {
+        //Debug.Log("Adjust Y =" + Adjust.transform.localEulerAngles.y);
+        //comformMessage.text = "Adjust Y =" + Adjust.transform.localEulerAngles.y;
+
+
         //ユーザの顔位置更新
-        TestParentVR.transform.position = VRPos;
-        TestParentVR.transform.eulerAngles = VRRot;
+        TestParentVR.transform.position = VRPos + Quaternion.Euler(0, roomObject.transform.eulerAngles.y , 0) * (Adjust.transform.localPosition);
+        TestParentVR.transform.eulerAngles = VRRot + new Vector3(0, Adjust.transform.localEulerAngles.y,0);
+
+        //
+        Vector3 missPosVec = TestParentVR.transform.position - Adjust.transform.position;
+        Vector3 realPosVec = Quaternion.Euler(0, Adjust.transform.localEulerAngles.y, 0) * missPosVec;
+        TestParentVR.transform.position += realPosVec - missPosVec; 
+
     }
 
     //case 10
@@ -60,14 +73,21 @@ public class AndroidManager : MonoBehaviour
     public void PositionAdjust(Vector3 realAndroidPos, float androidEularY)
     {
         //realAndroidPosはVRからAndroidに移動するベクトル
-        Debug.Log("Position Adjust");     
-        
-        Vector3 moveVec = Quaternion.Euler(0,TestParentVR.transform.eulerAngles.y,0) * realAndroidPos;
+        comformMessage.text = "Position OK!";
+
+        //ARカメラからのベクトルで移動
+        //Vector3 pos = androidCamera.transform.position;
+        //Vector3 moveTesVec = Quaternion.Euler(0, androidCamera.transform.eulerAngles.y, 0) * realAndroidPos;
+
+
+        Vector3 moveVec = Quaternion.Euler(0,TestParentVR.transform.eulerAngles.y,0) * (realAndroidPos);
         ARSessionOrigin.transform.position = TestParentVR.transform.position + moveVec;
         ARSessionOrigin.transform.eulerAngles = new Vector3(0, TestParentVR.transform.eulerAngles.y + androidEularY, 0);
-        //comformMessage2.text = "ARCamera: x=" + androidCamera.transform.localPosition.x + "--y=" + androidCamera.transform.localPosition.y + "--z=" + androidCamera.transform.localPosition.z;
 
         roomObject.transform.position = TestParentVR.transform.position;
-        roomObject.transform.eulerAngles = new Vector3(0,TestParentVR.transform.eulerAngles.y ,0);
+        roomObject.transform.eulerAngles = new Vector3(0,TestParentVR.transform.eulerAngles.y, 0);
+
+        Adjust.GetComponent<ARAnchor>().enabled = true;
+        //VRAdjust.GetComponent<ARAnchor>().enabled = true;
     }
 }

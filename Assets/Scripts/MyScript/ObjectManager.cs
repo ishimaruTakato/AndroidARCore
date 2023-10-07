@@ -42,14 +42,6 @@ public class ObjectManager : SingletonMonoBehaviour<ObjectManager>
     {
         inRoomObjects[objectIndex].layer = 6;
 
-
-        //if (onOff == 1)
-        //{
-        //}
-        //else
-        //{
-        //    inRoomObjects[objectIndex].layer = 0;
-        //}
     }
 
     public void EmphasisReset()
