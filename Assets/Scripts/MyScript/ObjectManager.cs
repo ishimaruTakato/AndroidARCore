@@ -57,7 +57,7 @@ public class ObjectManager : SingletonMonoBehaviour<ObjectManager>
 
     public void ARHandOpen(Vector3 pos)
     {
-        ARrightHand.layer = 0;
-        ARrightHand.transform.localPosition = pos;
+        //ARrightHand.layer = 0;
+        //ARrightHand.transform.localPosition = pos;
     }
 }
