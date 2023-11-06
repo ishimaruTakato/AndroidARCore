@@ -48,7 +48,7 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     //drawLine -14
     //drawOnOff -15
 
-    private string host = "192.168.0.209";
+    private string host = "192.168.0.210";
     private int port = 9000;
     private UdpClient client;
 
