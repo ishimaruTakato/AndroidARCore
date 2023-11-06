@@ -14,6 +14,7 @@ using UnityEngine.UI;
 public class ServerManager : SingletonMonoBehaviour<ServerManager> 
 {
     HandByte handByte;
+    DrawManager drawManager;
     [SerializeField] AndroidManager androidManager;
     ObjectManager objectManager;
 
@@ -30,6 +31,7 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
     void Start()
     {
         handByte = HandByte.Instance;
+        drawManager = DrawManager.Instance;
         //androidManager = AndroidManager.Instance;
         objectManager = ObjectManager.Instance;
 
@@ -83,6 +85,10 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
                         objectManager.ARHandOpen(ARrightHandPos);
                         break;
 
+                    case "drawLine":
+                        drawManager.ReceivePaintPos(drawPoint);
+                        break;
+
                         //case "TestPos":
                         //    handByte.TestReceivePos(IndexTipPosByte);
                         //    message.text = "Test Pos Get";
@@ -122,6 +128,10 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
         //leftVectorRot -9
         //positionAdjust -10
         //objectHighLight -11
+        //objectSelect -12
+        //ARrightHand -13
+        //drawLine -14
+        //drawOnOff -15
 
         switch (byteType)
         {
@@ -170,6 +180,11 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
             case 13:
                 this.ReceiveARrightHandPos(getByte);
                 subject.OnNext("ARrightHand");
+                break;
+
+            case 14:
+                this.ReceiveDrawLine(getByte);
+                subject.OnNext("drawLine");
                 break;
         }
 
@@ -282,6 +297,13 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
     private void ReceiveARrightHandPos(byte[] bytes)
     {
         ARrightHandPos = ByteToVec(bytes);
+    }
+
+    //case 14
+    Vector3 drawPoint;
+    private void ReceiveDrawLine(byte[] bytes)
+    {
+        drawPoint = ByteToVec(bytes);
     }
 
     private void OnDestroy()

@@ -42,8 +42,13 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     //leftVectorPos -8
     //leftVectorRot -9
     //positionAdjust -10
+    //objectHighLight -11
+    //objectSelect -12
+    //ARrightHand -13
+    //drawLine -14
+    //drawOnOff -15
 
-    private string host = "192.168.0.210";
+    private string host = "192.168.0.209";
     private int port = 9000;
     private UdpClient client;
 
@@ -55,6 +60,7 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     [SerializeField] Text moveFlagText;
     int castFlag = 0;
     ObjectManager objectManager;
+    DrawManager drawManager;
 
     // Start is called before the first frame update
     void Start()
@@ -62,6 +68,7 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
         client = new UdpClient();
         client.Connect(host, port);
         objectManager = ObjectManager.Instance;
+        drawManager = DrawManager.Instance;
         text.text = host;
     }
 
@@ -75,31 +82,18 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
             if (touch.phase == TouchPhase.Began)
             {                
                 text.text = "âüÇµÇΩ";
-                
+                drawManager.DrawFlagSwitch(true);
+                byte[] vecByte = new byte[] { 15, (byte)1 };
+                Send(vecByte);
             }
 
             if (touch.phase == TouchPhase.Ended)
             {
                 text.text = "ó£Çµyon\nto "+host;
 
-                Debug.Log("Send Touch --12");
-
-                if (castFlag == 0)
-                {
-                    castFlag = 1;
-                    moveFlagText.text = "MoveFlag ON";
-                }
-                else
-                {
-                    castFlag = 0;
-                    moveFlagText.text = "MoveFlag OFF";
-                    objectManager.EmphasisReset();
-                }
-
-                
-
-                byte[] vecByte = new byte[] {12, (byte)castFlag};
-                Send(vecByte);
+                //MoveSwitch();
+                drawManager.DrawFlagSwitch(false);
+                byte[] vecByte = new byte[] { 15, (byte)0 };
             }
 
             //if (touch.phase == TouchPhase.Moved)
@@ -107,6 +101,35 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
             //    text.text = "âüÇµÇ¡Çœ";
             //}
         }             
+    }
+
+    void MoveSwitch()
+    {
+        Debug.Log("Send Touch --12");
+        if (castFlag == 0)
+        {
+            castFlag = 1;
+            moveFlagText.text = "MoveFlag ON";
+        }
+        else
+        {
+            castFlag = 0;
+            moveFlagText.text = "MoveFlag OFF";
+            objectManager.EmphasisReset();
+        }
+
+        byte[] vecByte = new byte[] { 12, (byte)castFlag };
+        Send(vecByte);
+    }
+
+    void DrawOn()
+    {
+
+    }
+
+    void DrawOff()
+    {
+
     }
 
     //ëóêMBit
@@ -123,6 +146,8 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     //positionAdjust -10
     //objectHighLight -11
     //objectSelect -12
+    //ARrightHand -13
+    //drawLine -14
 
     private void Send(byte[] bytes)
     {
