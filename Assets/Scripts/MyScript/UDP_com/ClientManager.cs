@@ -82,18 +82,14 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
             if (touch.phase == TouchPhase.Began)
             {                
                 text.text = "âüÇµÇΩ";
-                drawManager.DrawFlagSwitch(true);
-                byte[] vecByte = new byte[] { 15, (byte)1 };
-                Send(vecByte);
+                DrawSwitch(true);
             }
 
             if (touch.phase == TouchPhase.Ended)
             {
                 text.text = "ó£Çµyon\nto "+host;
-
                 //MoveSwitch();
-                drawManager.DrawFlagSwitch(false);
-                byte[] vecByte = new byte[] { 15, (byte)0 };
+                DrawSwitch(false);
             }
 
             //if (touch.phase == TouchPhase.Moved)
@@ -101,6 +97,17 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
             //    text.text = "âüÇµÇ¡Çœ";
             //}
         }             
+    }
+
+    void DrawSwitch(bool flag)
+    {
+        drawManager.DrawFlagSwitch(flag);
+        byte[] vecByte;
+
+        if (flag) vecByte = new byte[] { 15, (byte)1 };
+        else vecByte = new byte[] { 15, (byte)0 };
+
+        Send(vecByte);
     }
 
     void MoveSwitch()
@@ -122,15 +129,6 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
         Send(vecByte);
     }
 
-    void DrawOn()
-    {
-
-    }
-
-    void DrawOff()
-    {
-
-    }
 
     //ëóêMBit
     // int - 0
@@ -173,8 +171,8 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
         
         byte[] vecByte = xByte.Concat(yByte.Concat(zByte).ToArray()).ToArray();
         vecByte = vecByte.Concat(new byte[] { 5 }).ToArray();
-
         vecByte = new byte[] { 5 }.Concat(vecByte).ToArray();
+
         Send(vecByte);
     }
 
