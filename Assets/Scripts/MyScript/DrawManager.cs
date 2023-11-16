@@ -69,13 +69,13 @@ public class DrawManager : SingletonMonoBehaviour<DrawManager>
         PaintPosition.localPosition = PaintPos; 
     }
 
-    private void LineUndo()
+    public void LineUndo()
     {
         Destroy(lineObjects[lineObjects.Count - 1]);
         lineObjects.RemoveAt(lineObjects.Count - 1);
     }
 
-    private void LineAllDelete()
+    public void LineAllDelete()
     {
         foreach (var i in lineObjects)
         {

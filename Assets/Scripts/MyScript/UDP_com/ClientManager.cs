@@ -62,6 +62,10 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     ObjectManager objectManager;
     DrawManager drawManager;
 
+    [SerializeField] Canvas canvas;
+    [SerializeField] RectTransform AllDeleteButton;
+    [SerializeField] RectTransform UndoButton;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,27 +79,48 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     // Update is called once per frame
     void Update()
     {
+        if (!canvas.enabled) return;
+
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
 
             if (touch.phase == TouchPhase.Began)
-            {                
+            {
+                //‰Ÿ‚µ‚½
                 text.text = "‰Ÿ‚µ‚½";
                 DrawSwitch(true);
+
+                if (RectTransformUtility.RectangleContainsScreenPoint(AllDeleteButton, Input.mousePosition))
+                {
+                    drawManager.LineAllDelete();
+                }
+
+                if (RectTransformUtility.RectangleContainsScreenPoint(UndoButton, Input.mousePosition))
+                {
+                    drawManager.LineUndo();
+                }
             }
 
             if (touch.phase == TouchPhase.Ended)
             {
+                //—£‚µ‚½
                 text.text = "—£‚µyon\nto "+host;
                 //MoveSwitch();
                 DrawSwitch(false);
             }
 
-            //if (touch.phase == TouchPhase.Moved)
-            //{                
-            //    text.text = "‰Ÿ‚µ‚Á‚Ï";
-            //}
+            if (touch.phase == TouchPhase.Stationary)
+            {
+                //‰Ÿ‚µ‚Á‚Ï
+                
+            }
+
+                if (touch.phase == TouchPhase.Moved)
+            {
+                //‰Ÿ‚µ‚Ä“®‚©‚·
+                text.text = "‰Ÿ‚µ‚Á‚Ï";
+            }
         }             
     }
 
