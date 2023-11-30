@@ -46,7 +46,9 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     //objectSelect -12
     //ARrightHand -13
     //drawLine -14
-    //drawOnOff -15
+    //drawSwitch -15
+    //drawUndo -16
+    //drawAllDelete -17
 
     private string host = "192.168.0.210";
     private int port = 9000;
@@ -89,17 +91,29 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
             {
                 //‰Ÿ‚µ‚½
                 text.text = "‰Ÿ‚µ‚½";
-                DrawSwitch(true);
-
-                if (RectTransformUtility.RectangleContainsScreenPoint(AllDeleteButton, Input.mousePosition))
-                {
-                    drawManager.LineAllDelete();
-                }
+                bool tmpFlag = true;
 
                 if (RectTransformUtility.RectangleContainsScreenPoint(UndoButton, Input.mousePosition))
                 {
+                    tmpFlag = false;
                     drawManager.LineUndo();
+
+                    byte[] vecByte;
+                    vecByte = new byte[] { 16, (byte)0 };
+                    Send(vecByte);
                 }
+
+                if (RectTransformUtility.RectangleContainsScreenPoint(AllDeleteButton, Input.mousePosition))
+                {
+                    tmpFlag = false;
+                    drawManager.LineAllDelete();
+
+                    byte[] vecByte;
+                    vecByte = new byte[] { 17, (byte)0 };
+                    Send(vecByte);
+                }                
+
+                DrawSwitch(tmpFlag);
             }
 
             if (touch.phase == TouchPhase.Ended)
@@ -171,6 +185,9 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     //objectSelect -12
     //ARrightHand -13
     //drawLine -14
+    //drawSwitch -15
+    //drawUndo -16
+    //drawAllDelete -17
 
     private void Send(byte[] bytes)
     {

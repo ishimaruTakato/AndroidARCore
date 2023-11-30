@@ -131,7 +131,9 @@ public class ServerManager : SingletonMonoBehaviour<ServerManager>
         //objectSelect -12
         //ARrightHand -13
         //drawLine -14
-        //drawOnOff -15
+        //drawSwitch -15
+        //drawUndo -16
+        //drawAllDelete -17
 
         switch (byteType)
         {
