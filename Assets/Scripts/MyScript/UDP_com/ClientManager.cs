@@ -63,6 +63,8 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
     int castFlag = 0;
     ObjectManager objectManager;
     DrawManager drawManager;
+    [SerializeField] bool emphasisFlag;
+    [SerializeField] bool drawFlag;
 
     [SerializeField] Canvas canvas;
     [SerializeField] RectTransform AllDeleteButton;
@@ -93,35 +95,44 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
                 text.text = "‰Ÿ‚µ‚½";
                 bool tmpFlag = true;
 
-                if (RectTransformUtility.RectangleContainsScreenPoint(UndoButton, Input.mousePosition))
+                if (drawFlag)
                 {
-                    tmpFlag = false;
-                    drawManager.LineUndo();
+                    if (RectTransformUtility.RectangleContainsScreenPoint(UndoButton, Input.mousePosition))
+                    {
+                        tmpFlag = false;
+                        drawManager.LineUndo();
 
-                    byte[] vecByte;
-                    vecByte = new byte[] { 16, (byte)0 };
-                    Send(vecByte);
+                        byte[] vecByte;
+                        vecByte = new byte[] { 16, (byte)0 };
+                        Send(vecByte);
+                    }
+
+                    if (RectTransformUtility.RectangleContainsScreenPoint(AllDeleteButton, Input.mousePosition))
+                    {
+                        tmpFlag = false;
+                        drawManager.LineAllDelete();
+
+                        byte[] vecByte;
+                        vecByte = new byte[] { 17, (byte)0 };
+                        Send(vecByte);
+                    }
+
+                    DrawSwitch(tmpFlag);
                 }
 
-                if (RectTransformUtility.RectangleContainsScreenPoint(AllDeleteButton, Input.mousePosition))
+                if(emphasisFlag)
                 {
-                    tmpFlag = false;
-                    drawManager.LineAllDelete();
 
-                    byte[] vecByte;
-                    vecByte = new byte[] { 17, (byte)0 };
-                    Send(vecByte);
-                }                
-
-                DrawSwitch(tmpFlag);
+                }
             }
 
             if (touch.phase == TouchPhase.Ended)
             {
                 //—£‚µ‚½
                 text.text = "—£‚µyon\nto "+host;
-                //MoveSwitch();
-                DrawSwitch(false);
+                if (drawFlag) DrawSwitch(false);
+                if (emphasisFlag) MoveSwitch();
+                
             }
 
             if (touch.phase == TouchPhase.Stationary)

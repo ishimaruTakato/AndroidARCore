@@ -8,6 +8,7 @@ public class DrawManager : SingletonMonoBehaviour<DrawManager>
     [SerializeField] Transform PaintPosition;
     private GameObject CurrentLineObject = null;
     private List<GameObject> lineObjects;
+    [SerializeField] GameObject PaintSphere;
 
     private bool drawFlag = false;
 
@@ -48,6 +49,8 @@ public class DrawManager : SingletonMonoBehaviour<DrawManager>
             render.positionCount = NextPositionIndex + 1;
             render.SetPosition(NextPositionIndex, pointer.position);
 
+            PaintSphere.transform.position = pointer.position;
+
         }
         else
         {
@@ -62,6 +65,8 @@ public class DrawManager : SingletonMonoBehaviour<DrawManager>
     public void DrawFlagSwitch(bool flag)
     {
         drawFlag = flag;
+        if (drawFlag == true) PaintSphere.SetActive(true);
+        else if (drawFlag == false) PaintSphere.SetActive(false);
     }
 
     public void ReceivePaintPos(Vector3 PaintPos)

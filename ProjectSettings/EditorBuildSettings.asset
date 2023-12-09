@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/NullScene.unity
     guid: b0a402b80991e6f46bb3636e926d4da3
+  - enabled: 0
+    path: Assets/Scenes/EmphasisScene.unity
+    guid: 44a533c405e37a14ba449e68c0cf2a54
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 8ee4091bbdb2ea041b5e8d7bb11b06c3, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: cbb1a906a8b2b18489c3a3ffe4ebe1d6, type: 2}
