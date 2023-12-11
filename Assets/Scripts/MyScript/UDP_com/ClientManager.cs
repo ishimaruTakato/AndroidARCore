@@ -177,6 +177,7 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
 
         byte[] vecByte = new byte[] { 12, (byte)castFlag };
         Send(vecByte);
+
     }
 
 

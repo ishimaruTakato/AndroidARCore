@@ -7,6 +7,8 @@ public class ObjectManager : SingletonMonoBehaviour<ObjectManager>
     [SerializeField] List<GameObject> inRoomObjects;
     [SerializeField] GameObject ARrightHand;
 
+    //[SerializeField] GameObject PaintSphere;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,18 +48,27 @@ public class ObjectManager : SingletonMonoBehaviour<ObjectManager>
 
     public void EmphasisReset()
     {
+
+        StartCoroutine("EmReset");
+    }
+
+    IEnumerator EmReset()
+    {
+        yield return new WaitForSeconds(0.1f);
+
         foreach (var roomObject in inRoomObjects)
         {
             roomObject.layer = 0;
         }
 
         ARrightHand.layer = 7;
-
     }
+
+
 
     public void ARHandOpen(Vector3 pos)
     {
-        //ARrightHand.layer = 0;
-        //ARrightHand.transform.localPosition = pos;
+        ARrightHand.layer = 0;
+        ARrightHand.transform.localPosition = pos;
     }
 }
