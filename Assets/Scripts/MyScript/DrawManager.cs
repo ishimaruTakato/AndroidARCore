@@ -65,13 +65,14 @@ public class DrawManager : SingletonMonoBehaviour<DrawManager>
     public void DrawFlagSwitch(bool flag)
     {
         drawFlag = flag;
-        if (drawFlag == true) PaintSphere.SetActive(true);
-        else if (drawFlag == false) PaintSphere.SetActive(false);
+        //if (drawFlag == true) PaintSphere.SetActive(true);
+        //else if (drawFlag == false) PaintSphere.SetActive(false);
     }
 
     public void ReceivePaintPos(Vector3 PaintPos)
     {
-        PaintPosition.localPosition = PaintPos; 
+        PaintPosition.localPosition = PaintPos;
+        PaintSphere.transform.position = Pointer.position;
     }
 
     public void LineUndo()

@@ -60,6 +60,7 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
   
     [SerializeField] Text comformText;
     [SerializeField] Text moveFlagText;
+    [SerializeField] Image moveFlagPanel;
     int castFlag = 0;
     ObjectManager objectManager;
     DrawManager drawManager;
@@ -78,6 +79,8 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
         objectManager = ObjectManager.Instance;
         drawManager = DrawManager.Instance;
         text.text = host;
+
+        if (emphasisFlag) objectManager.ARHandOn();
     }
 
     // Update is called once per frame
@@ -166,12 +169,14 @@ public class ClientManager : SingletonMonoBehaviour<ClientManager>
         if (castFlag == 0)
         {
             castFlag = 1;
-            moveFlagText.text = "MoveFlag ON";
+            moveFlagText.text = "‹­’² ON";
+            moveFlagPanel.color = new Color32(0, 156, 24, 255);
         }
         else
         {
             castFlag = 0;
-            moveFlagText.text = "MoveFlag OFF";
+            moveFlagText.text = "‹­’² OFF";
+            moveFlagPanel.color = new Color32(166,0,37,255);
             objectManager.EmphasisReset();
         }
 

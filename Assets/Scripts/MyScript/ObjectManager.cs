@@ -61,14 +61,17 @@ public class ObjectManager : SingletonMonoBehaviour<ObjectManager>
             roomObject.layer = 0;
         }
 
-        ARrightHand.layer = 7;
+        //ARrightHand.layer = 7;
     }
 
-
+    public void ARHandOn()
+    {
+        ARrightHand.SetActive(true);
+    }
 
     public void ARHandOpen(Vector3 pos)
     {
-        ARrightHand.layer = 0;
+        //ARrightHand.layer = 0;
         ARrightHand.transform.localPosition = pos;
     }
 }
