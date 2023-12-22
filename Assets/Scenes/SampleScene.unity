@@ -5516,7 +5516,7 @@ MonoBehaviour:
   roomOb: {fileID: 358695897}
   comformText: {fileID: 1456150340}
   moveFlagText: {fileID: 910386785}
-  moveFlagPanel: {fileID: 0}
+  moveFlagPanel: {fileID: 1045529751}
   emphasisFlag: 0
   drawFlag: 1
   canvas: {fileID: 503765445}
